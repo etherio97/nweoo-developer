@@ -20,8 +20,8 @@ router.post('/', (req, res) => {
     const errors = [];
     const { email, password } = req.body;
     const resolve = (user) => {
-        res.session._user = user;
-        res.session.loggedIn = true;
+        req.session['loggedIn'] = true;
+        req.session['email'] = user.email;
         res.redirect('/');
     };
     const reject = () => res.render('auth/Login.ejs', {
@@ -39,13 +39,13 @@ router.post('/', (req, res) => {
             .findOne({ email })
             .then((user) => {
                 if (!user) return errors.push('Invalid email address') && reject();
-                if (!verify(user.password, passwor)) {
-                    return errors.push('Invalid email address') && reject();
+                if (!verify(password, user.password)) {
+                    return errors.push('Incorrect password') && reject();
                 }
                 user.password = undefined;
                 delete user.password;
                 resolve(user);
-            }).catch(err => errors.push('Invalid email address') && reject())
+            }).catch(err => errors.push(err.message) && reject())
     }
 });
 
@@ -59,10 +59,11 @@ router.post('/register', (req, res) => {
     const errors = [];
     const { email, password, repassword } = req.body;
     const resolve = (user) => {
-        req.session._user = user;
-        req.session.loggedIn = true;
-        console.log(req);
-        req.redirect('/');
+        req.session = {
+            _user: user,
+            loggedIn: true
+        };
+        res.redirect('/');
     };
     const reject = () => res.render('auth/Create.ejs', {
         title: "Developer Login",

@@ -9,6 +9,11 @@ const PORT = process.env.PORT || 3000;
 
 require('dotenv').config();
 
+app.use((req, res, next) => {
+    console.log(req.path, req.body)
+    next()
+})
+
 app.set('view engine', 'ejs');
 
 app.use(ejs);

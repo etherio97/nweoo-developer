@@ -1,15 +1,25 @@
 const router = require('express').Router();
 
-router.get('/', (req, res) => {
-    if (req.session.isLogged) {
-        res.render('pages/Home.ejs', {
-            title: 'Home'
-        });
-    } else {
-        res.redirect('/login');
-    }
-});
+const Auth = require('../middlewares/Auth');
+const Guest = require('../middlewares/Guest');
 
-router.use('/auth', require('./auth'));
+router.get('/', Auth.guard('/auth'), (req, res) =>
+    res.render('pages/Home.ejs', {
+        title: 'Home'
+    })
+);
+
+router.use('/auth', Guest.guard('/'), require('./auth'));
+
+router.use('/deaths', Auth.guard('/auth'), require('./deaths'));
+
+// router.use('/cdms', Auth.guard('/auth'), require('./cdms'));
+
+// router.use('/prisoners', Auth.guard('/auth'), require('./prisoners'));
+
+router.use('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/')
+});
 
 module.exports = router;

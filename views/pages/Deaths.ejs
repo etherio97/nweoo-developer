@@ -116,7 +116,7 @@
     </ul>
 </header>
 
-<div class="container-fluid  text-start">
+<div class="container-fluid text-start">
     <div class="row">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div class="position-sticky pt-3">
@@ -156,7 +156,7 @@
 
         <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
             <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">Dashboard</h1>
+                <h1 class="h2">DEATHS RECORDS</h1>
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group me-2">
                         <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -169,140 +169,62 @@
                 </div>
             </div>
 
-            <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+            <form action="/deaths" method="POST" class="form-floating">
+                <div class="m-3">
+                    <label for="name" id="floatingInputValue">Person Name</label>
+                    <input type="text" id="name" name="name" class="form-control" required>
+                </div>
+                <div class="m-3">
+                    <label for="age" id="floatingInputValue">Age</label>
+                    <input type="number" id="age" name="age" class="form-control" required>
+                </div>
+                <div class="m-3">
+                    <label for="deceased" id="floatingInputValue">Deseased Date</label>
+                    <input type="date" id="deceased" name="deceased" class="form-control" required>
+                </div>
+                <div class="m-3">
+                    <label for="incident" id="floatingInputValue">Incident Date</label>
+                    <input type="date" id="incident" name="incident" class="form-control" required>
+                </div>
+                <div class="m-3">
+                    <label for="rs" id="floatingInputValue">Region or State</label>
+                    <select class="form-select">
+                        <option selected>- Choose State or Region -</option>
+                        <option value="Yangon">Yangon Region</option>
+                        <option value="Mandalay">Mandalay Region</option>
+                        <option value="Naypyitaw">Naypyitaw</option>
+                        <option value="Sagaing">Sagaing Region</option>
+                        <option value="Bago">Bago Region</option>
+                        <option value="Magway">Magway Region</option>
+                        <option value="Ayeyarwady">Ayeyarwady Region</option>
+                        <option value="Tanintharyi">Tanintharyi Region</option>
+                        <option value="Kachin">Kachin State</option>
+                        <option value="Kayah">Kayah State</option>
+                        <option value="Kayin">Kayin State</option>
+                        <option value="Chin">Chin State</option>
+                        <option value="Chin">Mon State</option>
+                        <option value="Chin">Rakhine State</option>
+                        <option value="Chin">Shan State</option>
+                    </select>
+                </div>
+                <div class="m-3">
+                    <label for="rs" id="floatingInputValue">City or District</label>
+                    <input type="text" id="incident" name="incident" class="form-control">
+                </div>
+                <div class="m-3">
+                    <label for="remarks" id="floatingInputValue">Remarks</label>
+                    <textarea rows="5" id="remarks" name="remarks" class="form-control"></textarea>
+                </div>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button type="submit" class="btn btn-primary btn-block">
+                    Create
+                </button>
+                </div>
+            </form>
 
-            <h2>Section title</h2>
-            <div class="table-responsive">
-                <table class="table table-striped table-sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                            <th>Header</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1,001</td>
-                            <td>random</td>
-                            <td>data</td>
-                            <td>placeholder</td>
-                            <td>text</td>
-                        </tr>
-                        <tr>
-                            <td>1,002</td>
-                            <td>placeholder</td>
-                            <td>irrelevant</td>
-                            <td>visual</td>
-                            <td>layout</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>data</td>
-                            <td>rich</td>
-                            <td>dashboard</td>
-                            <td>tabular</td>
-                        </tr>
-                        <tr>
-                            <td>1,003</td>
-                            <td>information</td>
-                            <td>placeholder</td>
-                            <td>illustrative</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,004</td>
-                            <td>text</td>
-                            <td>random</td>
-                            <td>layout</td>
-                            <td>dashboard</td>
-                        </tr>
-                        <tr>
-                            <td>1,005</td>
-                            <td>dashboard</td>
-                            <td>irrelevant</td>
-                            <td>text</td>
-                            <td>placeholder</td>
-                        </tr>
-                        <tr>
-                            <td>1,006</td>
-                            <td>dashboard</td>
-                            <td>illustrative</td>
-                            <td>rich</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,007</td>
-                            <td>placeholder</td>
-                            <td>tabular</td>
-                            <td>information</td>
-                            <td>irrelevant</td>
-                        </tr>
-                        <tr>
-                            <td>1,008</td>
-                            <td>random</td>
-                            <td>data</td>
-                            <td>placeholder</td>
-                            <td>text</td>
-                        </tr>
-                        <tr>
-                            <td>1,009</td>
-                            <td>placeholder</td>
-                            <td>irrelevant</td>
-                            <td>visual</td>
-                            <td>layout</td>
-                        </tr>
-                        <tr>
-                            <td>1,010</td>
-                            <td>data</td>
-                            <td>rich</td>
-                            <td>dashboard</td>
-                            <td>tabular</td>
-                        </tr>
-                        <tr>
-                            <td>1,011</td>
-                            <td>information</td>
-                            <td>placeholder</td>
-                            <td>illustrative</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,012</td>
-                            <td>text</td>
-                            <td>placeholder</td>
-                            <td>layout</td>
-                            <td>dashboard</td>
-                        </tr>
-                        <tr>
-                            <td>1,013</td>
-                            <td>dashboard</td>
-                            <td>irrelevant</td>
-                            <td>text</td>
-                            <td>visual</td>
-                        </tr>
-                        <tr>
-                            <td>1,014</td>
-                            <td>dashboard</td>
-                            <td>illustrative</td>
-                            <td>rich</td>
-                            <td>data</td>
-                        </tr>
-                        <tr>
-                            <td>1,015</td>
-                            <td>random</td>
-                            <td>tabular</td>
-                            <td>information</td>
-                            <td>text</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
         </main>
     </div>
 </div>
-
 
 <footer class="my-5 pt-5 text-muted text-center text-small">
     <p class="mb-1">&copy; 2021 NweOo.</p>
