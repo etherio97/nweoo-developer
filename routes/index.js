@@ -3,9 +3,12 @@ const router = require('express').Router();
 const Auth = require('../middlewares/Auth');
 const Guest = require('../middlewares/Guest');
 
+const storage = require('../src/storage');
+
 router.get('/', Auth.guard('/auth'), (req, res) =>
     res.render('pages/Home.ejs', {
-        title: 'Home'
+        title: 'Home',
+        storage,
     })
 );
 
