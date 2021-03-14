@@ -17,6 +17,8 @@ router.use('/deaths', Auth.guard('/auth'), require('./deaths'));
 
 // router.use('/prisoners', Auth.guard('/auth'), require('./prisoners'));
 
+router.use('/webhook', require('./webhook'));
+
 router.use('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/')
