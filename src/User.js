@@ -4,7 +4,7 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        uniqued: true,
+        unique: true,
     },
     password: {
         type: String,
@@ -18,6 +18,6 @@ const UserSchema = new Schema({
     timestamps: true
 });
 
-const User = model('user', UserSchema);
+const User = model('User', UserSchema);
 
-mongoose.model = User;
+module.exports = User;

@@ -66,19 +66,19 @@
 
     <main class="form-signin">
         <form action="/login" method="POST">
-            <img class="mb-4" src="https://raw.githubusercontent.com/etherio/nwe-oo-vue/master/src/assets/nweoo-logo-text.png" alt="Nwe Oo" width="72" height="72">
-            <h1 class="h3 mb-3 fw-normal">
-                Developer Login
-            </h1>
+            <img class="mb-2" src="https://raw.githubusercontent.com/etherio/nwe-oo-vue/master/src/assets/nweoo-logo-text.png" alt="Nwe Oo" width="72" height="72">
+            <h4 class="h4 mb-4">
+                Developer
+            </h4>
 
             <label for="inputEmail" class="visually-hidden">Email</label>
-            <input type="email" id="email" name="email" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" id="email" name="email" class="form-control" placeholder="Email Address" value="<%- email %>" required autofocus>
 
             <label for="inputPassword" class="visually-hidden">Password</label>
-            <input type="password" id="password" name="password" class="form-control" placeholder="Password">
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
 
             <% if (errors.length) { %>
-                <div class="alert alert-danger" role="alert">
+                <div class="my-2 alert alert-danger" role="alert">
                     <ul class="mb-0 px-4">
                         <% for (let error of errors) { %>
                             <li class="text-start">
@@ -89,9 +89,11 @@
                 </div>
                 <% } %>
 
-                    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                    <a class="mt-2 w-100 btn btn-secondary" href="/register">Create an account</a>
-                    <p class="mt-5 mb-3 text-muted">&copy; 2020 NweOo.</p>
+                    <button class="mt-2 w-100 btn btn-lg btn-primary" type="submit">Log In</button>
+
+                    <a class="mt-2 w-100 btn btn-secondary" href="/register">Create new account</a>
+
+                    <p class="mt-4 mb-3 text-muted">&copy; 2020 NweOo.</p>
         </form>
     </main>
 

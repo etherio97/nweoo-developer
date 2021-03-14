@@ -13,19 +13,19 @@ app.set('view engine', 'ejs');
 
 app.use(ejs);
 
-app.use(express.json());
-
-app.use(express.urlencoded({
-    extended: true
-}));
-
-app.use(cookie());
-
 app.use(session({
     resave: true,
     saveUninitialized: true,
     secret: process.env.APP_SECRET
 }));
+
+app.use(express.urlencoded({
+    extended: true
+}));
+
+app.use(express.json());
+
+app.use(cookie());
 
 app.use(require('./routes'));
 
