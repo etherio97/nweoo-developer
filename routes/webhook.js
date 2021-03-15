@@ -28,27 +28,30 @@ router.post('/', async(req, res) => {
         return res.status(403).end();
     }
 
-    for (const entry of entries) {
-        for (const message of(entry.messaging || [])) {
-            const sender = message.sender && message.sender['id'];
-            const recipient = message.recipient && message.recipient['id'];
-            const text = message.message && message.message['text'];
-            if (!sender || !recipient) {
-                console.log('unable to update new message from webhook, required: sender.id, recipient.id');
-                return res.status(200).end()
+    new Promise((resolve, reject) => {
+            for (const entry of entries) {
+                const messages = entry.messaging || [];
+                for (const message of messages) {
+                    const sender = message.sender && message.sender['id'];
+                    const recipient = message.recipient && message.recipient['id'];
+                    const text = message.message && message.message['text'];
+                    if (!sender || !recipient || !text) {
+                        return res.status(400).json({ code: 400, error: "required fields: sender.id, recipient.id, text" })
+                    }
+                    await Message
+                        .create({
+                            sender,
+                            recipient,
+                            text,
+                            timestamp: message.timestamp || Date.now(),
+                        })
+                        .then(() => resolve())
+                        .catch((e) => reject(e));
+                }
             }
-            await Message
-                .create({
-                    sender,
-                    recipient,
-                    text,
-                    timestamp: message.timestamp || Date.now(),
-                })
-                .then(() => res.status(201).end())
-                .catch(() => res.status(400).end());
-        }
-    }
-
+        })
+        .then(() => res.status(201).end())
+        .catch((e) => res.status(500).json({ code: 500, error: e.message }));
 });
 
 module.exports = router;
