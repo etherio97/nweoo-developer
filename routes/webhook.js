@@ -20,7 +20,6 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     const entries = req.body['entry'] || {};
-    // const apiVersion = req.headers['facebook-api-version'];
     const userAgent = req.headers['user-agent'];
     const signature = req.headers['x-hub-signature'];
 
@@ -29,29 +28,34 @@ router.post('/', (req, res) => {
     }
 
     new Promise(async(resolve, reject) => {
-            for (const entry of entries) {
-                const messages = entry.messaging || [];
-                for (const message of messages) {
-                    const sender = message.sender && message.sender['id'];
-                    const recipient = message.recipient && message.recipient['id'];
-                    const text = message.message && message.message['text'];
-                    if (!sender || !recipient || !text) {
-                        return res.status(400).json({ code: 400, error: "required fields: sender.id, recipient.id, text" })
-                    }
-                    await Message
-                        .create({
-                            sender,
-                            recipient,
-                            text,
-                            timestamp: message.timestamp || Date.now(),
-                        })
-                        .then(() => resolve())
-                        .catch((e) => reject(e));
-                }
-            }
-        })
-        .then(() => res.status(201).end())
-        .catch((e) => res.status(500).json({ code: 500, error: e.message }));
+      for (const entry of entries) {
+        const messages = entry.messaging || [];
+        for (const message of messages) {
+          const sender = message.sender && message.sender['id'];
+          const recipient = message.recipient && message.recipient['id'];
+          const text = message.message && message.message['text'];
+          if (!sender || !recipienq) {
+            return res.status(400).json({ code: 400, error: "required fields: sender.id, recipient.id, text" })
+          }
+          await Message
+            .create({
+              sender,
+              recipient,               
+              text,
+              timestamp: message.timestamp || Date.now(),
+            })
+            .then(() => resolve())
+            .catch((e) => reject(e));
+        }
+      }
+    })
+    .then(() => res.status(201).end())
+    .catch((e) => res
+      .status(500)
+      .json({
+        code: 500,
+        error: e.message
+      }));
 });
 
 module.exports = router;
