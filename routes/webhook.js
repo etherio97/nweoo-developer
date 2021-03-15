@@ -11,10 +11,12 @@ router.get('/', (req, res) => {
         res.send(challenge).end();
     } else {
         if (req.session['loggedIn']) {
-            Message.getAll().then(messages => res.json({
-                messages,
-                lastUpdated,
-            }));
+            Message
+                .find({})
+                .then(messages => res.json({
+                    messages,
+                    lastUpdated,
+                }));
         } else {
             res.status(403).end();
         }
@@ -38,15 +40,15 @@ router.post('/', async(req, res) => {
             const sender = message.sender && message.sender['id'];
             const recipient = message.recipient && message.recipient['id'];
             const text = message.message && message.message['text'];
-            if (!sender || !recipient || !text) {
-                console.log('unable to update new message from webhook!', message);
+            if (!sender || !recipient) {
+                console.log('unable to update new message from webhook, required: sender.id, recipient.id');
                 return res.status(200).end()
             }
             await Message.create({
                 sender,
                 recipient,
                 text,
-                timestamp: message.timestamp,
+                timestamp: message.timestamp || Date.now(),
             });
         }
     }

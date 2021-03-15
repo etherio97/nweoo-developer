@@ -5,7 +5,8 @@
     "main": "main.js",
     "scripts": {
         "start": "env NODE_ENV=production node main.js",
-        "serve": "nodemon main.js"
+        "serve": "nodemon main.js",
+        "push": "git add . && git commit -m \"bugs fixed and updated\" && git push origin master"
     },
     "keywords": [],
     "author": "",
