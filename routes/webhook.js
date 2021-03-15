@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
     }
 });
 
-router.post('/', async(req, res) => {
+router.post('/', (req, res) => {
     const entries = req.body['entry'] || {};
     // const apiVersion = req.headers['facebook-api-version'];
     const userAgent = req.headers['user-agent'];
@@ -28,7 +28,7 @@ router.post('/', async(req, res) => {
         return res.status(403).end();
     }
 
-    new Promise((resolve, reject) => {
+    new Promise(async(resolve, reject) => {
             for (const entry of entries) {
                 const messages = entry.messaging || [];
                 for (const message of messages) {
