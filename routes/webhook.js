@@ -1,8 +1,6 @@
 const router = require("express").Router();
 const Message = require("../src/Message");
 
-let lastUpdated;
-
 router.get('/', (req, res) => {
     const verified = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
@@ -13,12 +11,9 @@ router.get('/', (req, res) => {
         if (req.session['loggedIn']) {
             Message
                 .find({})
-                .then(messages => res.json({
-                    messages,
-                    lastUpdated,
-                }));
+                .then(messages => res.json(messages));
         } else {
-            res.status(403).end();
+            res.status(401).end('/auth');
         }
     }
 });
@@ -33,8 +28,6 @@ router.post('/', async(req, res) => {
         return res.status(403).end();
     }
 
-    lastUpdated = Date.now();
-
     for (const entry of entries) {
         for (const message of(entry.messaging || [])) {
             const sender = message.sender && message.sender['id'];
@@ -44,16 +37,18 @@ router.post('/', async(req, res) => {
                 console.log('unable to update new message from webhook, required: sender.id, recipient.id');
                 return res.status(200).end()
             }
-            await Message.create({
-                sender,
-                recipient,
-                text,
-                timestamp: message.timestamp || Date.now(),
-            });
+            await Message
+                .create({
+                    sender,
+                    recipient,
+                    text,
+                    timestamp: message.timestamp || Date.now(),
+                })
+                .then(() => res.status(201).end())
+                .catch(() => res.status(400).end());
         }
     }
 
-    res.status(201).end();
 });
 
 module.exports = router;
