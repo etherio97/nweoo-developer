@@ -24,21 +24,16 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    const verified = req.query["hub.verify_token"];
-    if (process.env.APP_SECRET === verified) {
-        lastUpdated = Date.now();
-        // Message.create({
-        //   message: '',
-        // });
-        console.log(req.query, req.body);
-        storage.push({
-            q: req.query,
-            d: req.body,
-        })
-        res.status(200).end();
-    } else {
-        res.status(403).end();
-    }
+    lastUpdated = Date.now();
+    // Message.create({
+    //   message: '',
+    // });
+    console.log(req.headers, req.body);
+    storage.push({
+        headers: req.headers,
+        data: req.body,
+    });
+    res.status(201).end();
 });
 
 module.exports = router;
