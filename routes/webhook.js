@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
                 .find({})
                 .then(messages => res.json(messages));
         } else {
-            res.status(401).end('/auth');
+            res.redirect('/auth');
         }
     }
 });
