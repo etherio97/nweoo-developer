@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     if (req.session.isLogged) {
         res.redirect('/');
     } else {
-        res.render('auth/Login.ejs', {
+        res.render('auth/Login', {
             title: 'Developer Login',
             errors: [],
             email: '',
@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
         req.session['email'] = user.email;
         res.redirect('/');
     };
-    const reject = () => res.render('auth/Login.ejs', {
+    const reject = () => res.render('auth/Login', {
         title: "Developer Login",
         errors,
         email,
@@ -49,7 +49,7 @@ router.post('/', (req, res) => {
     }
 });
 
-router.get('/register', (req, res) => res.render('auth/Create.ejs', {
+router.get('/register', (req, res) => res.render('auth/Create', {
     title: 'Create an account',
     errors: [],
     email: '',
@@ -65,7 +65,7 @@ router.post('/register', (req, res) => {
         };
         res.redirect('/');
     };
-    const reject = () => res.render('auth/Create.ejs', {
+    const reject = () => res.render('auth/Create', {
         title: "Developer Login",
         errors,
         email,
