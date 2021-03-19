@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Message = require("../src/Message");
+const Auth = require("../middlewares/Auth");
 
 router.get("/", (req, res) => {
   const verified = req.query["hub.verify_token"];
@@ -67,6 +68,26 @@ router.post("/", (req, res) => {
         error: e.message,
       })
     );
+});
+
+router.get("/:id", Auth.guard("/"), (req, res) => {
+  const { action } = req.query;
+  if (!action)
+    return res.status(400).json({ error: "query parameter: action required" });
+  switch (action) {
+    case "approved":
+      res.redirect("/?action=approved&status=0");
+      break;
+    case "remove":
+      Message.deleteOne({ _id: req.params["id"] }).then((done) =>
+        res.redirect("/?action=remove&status=1")
+      );
+      break;
+    default:
+      res.status(400).json({
+        error: "unexcepted action: " + action,
+      });
+  }
 });
 
 module.exports = router;

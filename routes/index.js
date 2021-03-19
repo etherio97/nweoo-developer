@@ -1,5 +1,4 @@
 const router = require("express").Router();
-
 const Auth = require("../middlewares/Auth");
 const Guest = require("../middlewares/Guest");
 
@@ -9,7 +8,7 @@ router.get("/", Auth.guard("/auth"), (req, res) =>
   })
 );
 
-router.use("/auth", Guest.guard("/"), require("./auth"));
+router.use("/auth", require("./auth"));
 
 router.use("/deaths", Auth.guard("/auth"), require("./deaths"));
 

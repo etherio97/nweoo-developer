@@ -1,92 +1,96 @@
-const { verify, generate } = require('password-hash');
-const router = require('express').Router();
+const { verify, generate } = require("password-hash");
+const router = require("express").Router();
+const Auth = require("../middlewares/Auth");
+const Guest = require("../middlewares/Guest");
+const User = require("../src/User");
 
-const User = require('../src/User');
-
-router.get('/', (req, res) => {
-    if (req.session.isLogged) {
-        res.redirect('/');
-    } else {
-        res.render('auth/Login', {
-            title: 'Developer Login',
-            errors: [],
-            email: '',
-            password: '',
-        });
-    }
+router.get("/", Guest.guard("/"), (req, res) => {
+  if (req.session.isLogged) {
+    res.redirect("/");
+  } else {
+    res.render("auth/Login", {
+      title: "Developer Login",
+      errors: [],
+      email: "",
+      password: "",
+    });
+  }
 });
 
-router.post('/', (req, res) => {
-    const errors = [];
-    const { email, password } = req.body;
-    const resolve = (user) => {
-        req.session['loggedIn'] = true;
-        req.session['email'] = user.email;
-        res.redirect('/');
-    };
-    const reject = () => res.render('auth/Login', {
-        title: "Developer Login",
-        errors,
-        email,
+router.post("/", Guest.guard("/"), (req, res) => {
+  const errors = [];
+  const { email, password } = req.body;
+  const resolve = (user) => {
+    req.session["loggedIn"] = true;
+    req.session["email"] = user.email;
+    res.redirect("/");
+  };
+  const reject = () =>
+    res.render("auth/Login", {
+      title: "Developer Login",
+      errors,
+      email,
     });
 
-    if (!(email || '').length) errors.push('Email address is required');
-    if (!(password || '').length) errors.push('Password is required');
-    if (errors.length) {
-        reject();
-    } else {
-        User
-            .findOne({ email })
-            .then((user) => {
-                if (!user) return errors.push('Invalid email address') && reject();
-                if (!verify(password, user.password)) {
-                    return errors.push('Incorrect password') && reject();
-                }
-                user.password = undefined;
-                delete user.password;
-                resolve(user);
-            }).catch(err => errors.push(err.message) && reject())
-    }
+  if (!(email || "").length) errors.push("Email address is required");
+  if (!(password || "").length) errors.push("Password is required");
+  if (errors.length) {
+    reject();
+  } else {
+    User.findOne({ email })
+      .then((user) => {
+        if (!user) return errors.push("Invalid email address") && reject();
+        if (!verify(password, user.password)) {
+          return errors.push("Incorrect password") && reject();
+        }
+        user.password = undefined;
+        delete user.password;
+        resolve(user);
+      })
+      .catch((err) => errors.push(err.message) && reject());
+  }
 });
 
-router.get('/register', (req, res) => res.render('auth/Create', {
-    title: 'Create an account',
+router.get("/register", Auth.guard("/"), (req, res) =>
+  res.render("auth/Create", {
+    title: "Create an account",
     errors: [],
-    email: '',
-}));
+    email: "",
+  })
+);
 
-router.post('/register', (req, res) => {
-    const errors = [];
-    const { email, password, repassword } = req.body;
-    const resolve = (user) => {
-        req.session = {
-            _user: user,
-            loggedIn: true
-        };
-        res.redirect('/');
+router.post("/register", Auth.guard("/"), (req, res) => {
+  const errors = [];
+  const { email, password, repassword } = req.body;
+  const resolve = (user) => {
+    req.session = {
+      _user: user,
+      loggedIn: true,
     };
-    const reject = () => res.render('auth/Create', {
-        title: "Developer Login",
-        errors,
-        email,
-        password,
+    res.redirect("/");
+  };
+  const reject = () =>
+    res.render("auth/Create", {
+      title: "Developer Login",
+      errors,
+      email,
+      password,
     });
 
-    if (!(email || '').length) errors.push('Email address is required');
-    if (!(password || '').length) errors.push('Password is required');
-    if (password !== repassword) errors.push('Password does not match');
-    if (errors.length) {
-        reject();
-    } else {
-        User
-            .create({ email, password: generate(password), role: 'User', })
-            .then((user) => {
-                user.password = undefined;
-                delete user.password;
-                resolve(user);
-            })
-            .catch((err) => errors.push(err.message) && reject());
-    }
+  if (!(email || "").length) errors.push("Email address is required");
+  if (!(password || "").length) errors.push("Password is required");
+  if (password !== repassword) errors.push("Password does not match");
+  if (errors.length) {
+    reject();
+  } else {
+    User.create({ email, password: generate(password), role: "User" })
+      .then((user) => {
+        user.password = undefined;
+        delete user.password;
+        resolve(user);
+      })
+      .catch((err) => errors.push(err.message) && reject());
+  }
 });
 
 module.exports = router;
