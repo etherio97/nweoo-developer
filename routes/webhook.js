@@ -62,11 +62,13 @@ router.post("/", (req, res) => {
     }
   })
     .then(() => res.status(201).end())
-    .catch((e) =>
-      res.status(500).json({
-        code: 500,
-        error: e.message,
-      })
+    .catch(
+      (e) =>
+        console.log(e) |
+        res.status(500).json({
+          code: 500,
+          error: e.message,
+        })
     );
 });
 

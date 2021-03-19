@@ -1,221 +1,72 @@
-<style>
-    body {
-        font-size: .875rem;
-    }
+<%- include('../partials/header') %>
 
-    .feather {
-        width: 16px;
-        height: 16px;
-        vertical-align: text-bottom;
-    }
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+        <div
+            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">DEATHS RECORDS</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+                <button type="button" class="mx-2 btn btn-sm btn-outline-secondary dropdown-toggle">
 
-    .sidebar {
-        position: fixed;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 100;
-        padding: 48px 0 0;
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
-    }
-
-    @media (max-width: 767.98px) {
-        .sidebar {
-            top: 5rem;
-        }
-    }
-
-    .sidebar-sticky {
-        position: relative;
-        top: 0;
-        height: calc(100vh - 48px);
-        padding-top: .5rem;
-        overflow-x: hidden;
-        overflow-y: auto;
-    }
-
-    .sidebar .nav-link {
-        font-weight: 500;
-        color: #333;
-    }
-
-    .sidebar .nav-link .feather {
-        margin-right: 4px;
-        color: #727272;
-    }
-
-    .sidebar .nav-link.active {
-        color: #007bff;
-    }
-
-    .sidebar .nav-link:hover .feather,
-    .sidebar .nav-link.active .feather {
-        color: inherit;
-    }
-
-    .sidebar-heading {
-        font-size: .75rem;
-        text-transform: uppercase;
-    }
-
-    .navbar-brand {
-        padding-top: .75rem;
-        padding-bottom: .75rem;
-        font-size: 1rem;
-        background-color: rgba(0, 0, 0, .25);
-        box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
-    }
-
-    .navbar .navbar-toggler {
-        top: .25rem;
-        right: 1rem;
-    }
-
-    .navbar .form-control {
-        padding: .75rem 1rem;
-        border-width: 0;
-        border-radius: 0;
-    }
-
-    .form-control-dark {
-        color: #fff;
-        background-color: rgba(255, 255, 255, .1);
-        border-color: rgba(255, 255, 255, .1);
-    }
-
-    .form-control-dark:focus {
-        border-color: transparent;
-        box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
-    }
-</style>
-
-<header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-    <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3" href="/">
-        <img src="https://raw.githubusercontent.com/etherio/nwe-oo-vue/master/src/assets/nweoo-logo-text.png"
-            alt="NweOo" width="24" height="24"> Developer Panel
-    </a>
-    <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse"
-        data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <ul class="navbar-nav px-3">
-        <li class="nav-item text-nowrap">
-            <a class="nav-link" href="/logout">Sign out</a>
-        </li>
-    </ul>
-</header>
-
-<div class="container-fluid text-start">
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="position-sticky pt-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="/">
-                            <span data-feather="home"></span> Dashboard
-                        </a>
-                    </li>
-                </ul>
-
-                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Database</span>
-                    <a class="link-secondary" href="#" aria-label="Add a new report">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/deaths">
-                            <span data-feather="file-text"></span> Deaths
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/prisoners">
-                            <span data-feather="file-text"></span> Prisoners
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/cdms">
-                            <span data-feather="file-text"></span> CDMs
-                        </a>
-                    </li>
-                </ul>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                    This week
+                </button>
             </div>
-        </nav>
+        </div>
 
-        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
-            <div
-                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                <h1 class="h2">DEATHS RECORDS</h1>
-                <div class="btn-toolbar mb-2 mb-md-0">
-                    <div class="btn-group me-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                    </div>
-                    <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                    </button>
-                </div>
+        <form action="/deaths" method="POST" class="form-floating">
+            <div class="m-3">
+                <label for="name" id="floatingInputValue">Person Name</label>
+                <input type="text" id="name" name="name" class="form-control" required>
             </div>
+            <div class="m-3">
+                <label for="age" id="floatingInputValue">Age</label>
+                <input type="number" id="age" name="age" class="form-control" required>
+            </div>
+            <div class="m-3">
+                <label for="deceased" id="floatingInputValue">Deseased Date</label>
+                <input type="date" id="deceased" name="deceased" class="form-control" required>
+            </div>
+            <div class="m-3">
+                <label for="incident" id="floatingInputValue">Incident Date</label>
+                <input type="date" id="incident" name="incident" class="form-control" required>
+            </div>
+            <div class="m-3">
+                <label for="rs" id="floatingInputValue">Region or State</label>
+                <select class="form-select">
+                    <option selected>- Choose State or Region -</option>
+                    <option value="Yangon">Yangon Region</option>
+                    <option value="Mandalay">Mandalay Region</option>
+                    <option value="Naypyitaw">Naypyitaw</option>
+                    <option value="Sagaing">Sagaing Region</option>
+                    <option value="Bago">Bago Region</option>
+                    <option value="Magway">Magway Region</option>
+                    <option value="Ayeyarwady">Ayeyarwady Region</option>
+                    <option value="Tanintharyi">Tanintharyi Region</option>
+                    <option value="Kachin">Kachin State</option>
+                    <option value="Kayah">Kayah State</option>
+                    <option value="Kayin">Kayin State</option>
+                    <option value="Chin">Chin State</option>
+                    <option value="Chin">Mon State</option>
+                    <option value="Chin">Rakhine State</option>
+                    <option value="Chin">Shan State</option>
+                </select>
+            </div>
+            <div class="m-3">
+                <label for="rs" id="floatingInputValue">City or District</label>
+                <input type="text" id="incident" name="incident" class="form-control">
+            </div>
+            <div class="m-3">
+                <label for="remarks" id="floatingInputValue">Remarks</label>
+                <textarea rows="5" id="remarks" name="remarks" class="form-control"></textarea>
+            </div>
+            <div class="d-grid gap-2 col-6 mx-auto">
+                <button type="submit" class="btn btn-primary btn-block">
+                    Create
+                </button>
+            </div>
+        </form>
 
-            <form action="/deaths" method="POST" class="form-floating">
-                <div class="m-3">
-                    <label for="name" id="floatingInputValue">Person Name</label>
-                    <input type="text" id="name" name="name" class="form-control" required>
-                </div>
-                <div class="m-3">
-                    <label for="age" id="floatingInputValue">Age</label>
-                    <input type="number" id="age" name="age" class="form-control" required>
-                </div>
-                <div class="m-3">
-                    <label for="deceased" id="floatingInputValue">Deseased Date</label>
-                    <input type="date" id="deceased" name="deceased" class="form-control" required>
-                </div>
-                <div class="m-3">
-                    <label for="incident" id="floatingInputValue">Incident Date</label>
-                    <input type="date" id="incident" name="incident" class="form-control" required>
-                </div>
-                <div class="m-3">
-                    <label for="rs" id="floatingInputValue">Region or State</label>
-                    <select class="form-select">
-                        <option selected>- Choose State or Region -</option>
-                        <option value="Yangon">Yangon Region</option>
-                        <option value="Mandalay">Mandalay Region</option>
-                        <option value="Naypyitaw">Naypyitaw</option>
-                        <option value="Sagaing">Sagaing Region</option>
-                        <option value="Bago">Bago Region</option>
-                        <option value="Magway">Magway Region</option>
-                        <option value="Ayeyarwady">Ayeyarwady Region</option>
-                        <option value="Tanintharyi">Tanintharyi Region</option>
-                        <option value="Kachin">Kachin State</option>
-                        <option value="Kayah">Kayah State</option>
-                        <option value="Kayin">Kayin State</option>
-                        <option value="Chin">Chin State</option>
-                        <option value="Chin">Mon State</option>
-                        <option value="Chin">Rakhine State</option>
-                        <option value="Chin">Shan State</option>
-                    </select>
-                </div>
-                <div class="m-3">
-                    <label for="rs" id="floatingInputValue">City or District</label>
-                    <input type="text" id="incident" name="incident" class="form-control">
-                </div>
-                <div class="m-3">
-                    <label for="remarks" id="floatingInputValue">Remarks</label>
-                    <textarea rows="5" id="remarks" name="remarks" class="form-control"></textarea>
-                </div>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Create
-                    </button>
-                </div>
-            </form>
+    </main>
 
-        </main>
-    </div>
-</div>
-
-<footer class="my-5 pt-5 text-muted text-center text-small">
-    <p class="mb-1">&copy; 2021 NweOo.</p>
-</footer>
+    <%- include('../partials/footer') %>
