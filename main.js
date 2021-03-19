@@ -37,7 +37,7 @@ app.use(e.static(resolve(__dirname, "static")));
 app.use(require("./routes"));
 
 mongoose
-  .connect(process.env.DATABASE_URL, {
+  .connect(process.env.MONGODB_URL, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,

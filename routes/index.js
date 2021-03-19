@@ -12,7 +12,7 @@ router.use("/auth", require("./auth"));
 
 router.use("/deaths", Auth.guard("/auth"), require("./deaths"));
 
-// router.use('/prisoners', Auth.guard('/auth'), require('./prisoners'));
+router.use("/database", Auth.guard("/auth"), require("./database"));
 
 router.use("/webhook", require("./webhook"));
 
